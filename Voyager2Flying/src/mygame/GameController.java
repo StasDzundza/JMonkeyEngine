@@ -21,15 +21,20 @@ public class GameController extends SimpleApplication {
     private Voyager voyager;
     private Light light;
     private BitmapText footer;
-    
+    private static final int G;
+    private static final int camSpeed;
     public GameController(){
         
-        
-
     }
+    
+    static{
+        G = 3;
+        camSpeed = 400;
+    }
+    
     @Override
     public void simpleInitApp() {
-        flyCam.setMoveSpeed(400);
+        flyCam.setMoveSpeed(camSpeed);
         
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState); 
@@ -39,8 +44,8 @@ public class GameController extends SimpleApplication {
         jupiter = new Jupiter(assetManager,bulletAppState,rootNode);
         voyager = new Voyager(assetManager,bulletAppState,rootNode);
         light = new Light(rootNode);
-        cam.setLocation(jupiter.getGeometry().getLocalTranslation().add(-900, 400, 500));
         
+        cam.setLocation(jupiter.getGeometry().getLocalTranslation().add(-900, 400, 500));       
         initCrossHair();
         voyager.start();
     }
@@ -55,7 +60,6 @@ public class GameController extends SimpleApplication {
         float deltaZ = jupiterPosition.z - voyagerPosition.z;
         
         float length = (float)Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ);
-        float G = 3;
         float gravity = G*jupiter.getMass()/(length*length);
         voyager.getPhysics().setGravity(new Vector3f(gravity*deltaX/length, gravity*deltaY/length, gravity*deltaZ/length));
         cam.lookAt(jupiterPosition, voyagerPosition);

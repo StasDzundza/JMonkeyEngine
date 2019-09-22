@@ -16,6 +16,9 @@ import com.jme3.scene.Node;
  */
 public final class Light {
     public Light(Node rootNode){
-      
-    }
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(1,0,-2).normalizeLocal());
+        sun.setColor(ColorRGBA.Red);
+        rootNode.addLight(sun);
+  }
 }

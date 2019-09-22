@@ -6,7 +6,6 @@
 package mygame;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
@@ -14,8 +13,9 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.texture.Texture;
+import com.jme3.scene.shape.Sphere;
 
 /**
  *
@@ -24,47 +24,49 @@ import com.jme3.texture.Texture;
 public final class Voyager {
     private Material voyagerMaterial;
     private RigidBodyControl    voyagerPhy;
-    private Box voyager;
+    private Spatial voyager;
     private Geometry voyagerGeometry;
     private float speed;
+    private static final int size;
     
     public Voyager(AssetManager assetManager,BulletAppState bulletAppState,Node rootNode){
-        voyager = new Box(3,3,3);
-        speed = 85f;
+        voyager = assetManager.loadModel("Models/space-shuttle-orbiter.obj");
+        voyager.scale(0.01f);
+        speed = 90f;
         initMaterials(assetManager);
         initModel(bulletAppState,rootNode);
     }
     
+    static{
+        size = 3;
+    }
+    
     public void initMaterials(AssetManager assetManager){
-        voyagerMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        voyagerMaterial.setColor("Color", ColorRGBA.Blue);
+        voyagerMaterial = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     }
     
     public void initModel(BulletAppState bulletAppState,Node rootNode){
-        voyagerGeometry = new Geometry("Voyager", voyager);
-        voyagerGeometry.setMaterial(voyagerMaterial);
-        voyagerGeometry.setLocalTranslation(-500,0,1005); // Move it a bit
-        rootNode.attachChild(voyagerGeometry);
-        /* Make the jupiter physical with mass 1.0f! */
+        voyager.setMaterial(voyagerMaterial);
+        voyager.setLocalTranslation(-500,0,1005); // Move it 
+        //voyager.rotate(1.6f, 0, 0);          // Rotate it 
+        rootNode.attachChild(voyager);
+        /* Make the jupiter physical with mass 0.0f! */
         voyagerPhy = new RigidBodyControl(1f);
-        voyagerGeometry.addControl(voyagerPhy);
-        bulletAppState.getPhysicsSpace().add(voyagerPhy);
+        voyager.addControl(voyagerPhy);
+        bulletAppState.getPhysicsSpace().add(voyagerPhy);       
+        voyagerPhy.setLinearVelocity(new Vector3f(speed, 0, 0));
     }
     
     public void start(){
         voyagerPhy.setLinearVelocity(new Vector3f(speed, 0, 0));
     }
     
-    public Geometry getGeometry(){
-        return this.voyagerGeometry;
+    public Spatial getGeometry(){
+        return voyager;
     }
     
     public RigidBodyControl getPhysics(){
         return voyagerPhy;
-    }
-     
-    public Box getShape(){
-        return voyager;
     }
       
     public Material getMaterial(){

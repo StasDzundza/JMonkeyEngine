@@ -10,7 +10,6 @@ import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
@@ -26,14 +25,18 @@ public final class Jupiter {
     private final Sphere jupiter;
     private Geometry jupiterGeometry;
     private final int JupiterMas;
+    private static final float jupiterRadius;
     
     public Jupiter(AssetManager assetManager,BulletAppState bulletAppState,Node rootNode){
         JupiterMas = 5000000;
-        jupiter = new Sphere(32, 32, 205f, true, false);
+        jupiter = new Sphere(32, 32, jupiterRadius, true, false);
         jupiter.setTextureMode(Sphere.TextureMode.Projected);
         
         initMaterials(assetManager);
         initModel(bulletAppState,rootNode);
+    }
+    static{
+        jupiterRadius = 205f;
     }
     
     public void initMaterials(AssetManager assetManager){
@@ -43,7 +46,6 @@ public final class Jupiter {
         Texture texture1 = assetManager.loadTexture(key1);
         texture1.setWrap(Texture.WrapMode.Repeat);
         jupiterMaterial.setTexture("ColorMap", texture1);
-        //jupiterMaterial.setColor("Color", ColorRGBA.Blue);
     }
     
     public void initModel(BulletAppState bulletAppState,Node rootNode){
