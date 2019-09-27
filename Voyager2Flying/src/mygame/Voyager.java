@@ -21,56 +21,60 @@ import com.jme3.scene.shape.Sphere;
  *
  * @author STAS
  */
-public final class Voyager {
+public final class Voyager{
     private Material voyagerMaterial;
     private RigidBodyControl    voyagerPhy;
     private Spatial voyager;
-    private Geometry voyagerGeometry;
     private float speed;
     private static final int size;
     
-    public Voyager(AssetManager assetManager,BulletAppState bulletAppState,Node rootNode){
-        voyager = assetManager.loadModel("Models/space-shuttle-orbiter.obj");
-        voyager.scale(0.01f);
+    public Voyager(){
+
         speed = 90f;
-        initMaterials(assetManager);
-        initModel(bulletAppState,rootNode);
     }
     
     static{
         size = 3;
     }
     
-    public void initMaterials(AssetManager assetManager){
-        voyagerMaterial = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-    }
-    
-    public void initModel(BulletAppState bulletAppState,Node rootNode){
-        voyager.setMaterial(voyagerMaterial);
-        voyager.setLocalTranslation(-500,0,1005); // Move it 
-        //voyager.rotate(1.6f, 0, 0);          // Rotate it 
-        rootNode.attachChild(voyager);
-        /* Make the jupiter physical with mass 0.0f! */
-        voyagerPhy = new RigidBodyControl(1f);
-        voyager.addControl(voyagerPhy);
-        bulletAppState.getPhysicsSpace().add(voyagerPhy);       
-        voyagerPhy.setLinearVelocity(new Vector3f(speed, 0, 0));
-    }
-    
     public void start(){
         voyagerPhy.setLinearVelocity(new Vector3f(speed, 0, 0));
     }
-    
+
     public Spatial getGeometry(){
         return voyager;
     }
-    
+ 
     public RigidBodyControl getPhysics(){
         return voyagerPhy;
     }
-      
+
     public Material getMaterial(){
         return voyagerMaterial;
+    }
+    
+    public void setGeometry(Spatial s){
+        voyager = s;
+    }
+    
+    public void setPhysics(RigidBodyControl r){
+        voyagerPhy = r;
+    }
+    
+    public void setMaterial(Material m){
+        voyagerMaterial = m;
+    }
+    
+    public void setSpeed(float speed){
+        this.speed = speed;
+    }
+    
+    public float getSpeed(){
+        return speed;
+    }
+       
+    public void setPosition(Vector3f pos){
+        voyager.setLocalTranslation(pos);
     }
     
 }

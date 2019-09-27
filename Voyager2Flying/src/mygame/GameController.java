@@ -23,8 +23,10 @@ public class GameController extends SimpleApplication {
     private BitmapText footer;
     private static final int G;
     private static final int camSpeed;
+    private Physics p;
+    
     public GameController(){
-        
+        p = new Physics();
     }
     
     static{
@@ -38,15 +40,22 @@ public class GameController extends SimpleApplication {
         
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState); 
-        
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
         
-        jupiter = new Jupiter(assetManager,bulletAppState,rootNode);
-        voyager = new Voyager(assetManager,bulletAppState,rootNode);
+        jupiter = new Jupiter();
+        p.setMaterial(jupiter, assetManager);
+        p.setPhysics(jupiter, bulletAppState, rootNode);
+
+        voyager = new Voyager();
+        p.setMaterial(voyager, assetManager);
+        p.setPhysics(voyager, bulletAppState, rootNode);
+
         light = new Light(rootNode);
+
+        cam.setLocation(jupiter.getGeometry().getLocalTranslation().add(-900, 400, 500));
         
-        cam.setLocation(jupiter.getGeometry().getLocalTranslation().add(-900, 400, 500));       
         initCrossHair();
+        
         voyager.start();
     }
     
