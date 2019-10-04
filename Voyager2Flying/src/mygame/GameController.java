@@ -42,13 +42,15 @@ public class GameController extends SimpleApplication {
         stateManager.attach(bulletAppState); 
         bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, 0, 0));
         
-        jupiter = new Jupiter();
-        p.setMaterial(jupiter, assetManager);
-        p.setPhysics(jupiter, bulletAppState, rootNode);
+        jupiter = new Jupiter("Jupiter");
+        p.setMaterial(jupiter, assetManager,new Vector3f(0,2,-15),false);
+        p.setPhysics(jupiter, bulletAppState);
+        rootNode.attachChild(jupiter.getGeometry());
 
-        voyager = new Voyager();
-        p.setMaterial(voyager, assetManager);
-        p.setPhysics(voyager, bulletAppState, rootNode);
+        voyager = new Voyager("Voyager2");
+        p.setMaterial(voyager, assetManager,new Vector3f(-500,0,1005),false);
+        p.setPhysics(voyager, bulletAppState);
+        rootNode.attachChild(voyager.getGeometry());
 
         light = new Light(rootNode);
 

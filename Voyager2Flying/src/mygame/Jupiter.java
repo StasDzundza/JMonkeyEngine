@@ -5,16 +5,10 @@
  */
 package mygame;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.asset.TextureKey;
-import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
-import com.jme3.texture.Texture;
 
 /**
  *
@@ -27,11 +21,13 @@ public final class Jupiter{
     private Geometry jupiterGeometry;
     private final int JupiterMas;
     private static final float jupiterRadius;
+    private String name;
     
-    public Jupiter(){
+    public Jupiter(String name){
         JupiterMas = 5000000;
         jupiter = new Sphere(32, 32, jupiterRadius, true, false);
         jupiter.setTextureMode(Sphere.TextureMode.Projected);
+        this.name = name;
     }
     
     static{
@@ -69,6 +65,8 @@ public final class Jupiter{
     public Sphere getShape(){
         return jupiter;
     }
-
     
+    public String getName(){
+        return name;
+    }
 }

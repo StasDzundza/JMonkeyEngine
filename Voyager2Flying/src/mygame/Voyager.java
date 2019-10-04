@@ -5,18 +5,11 @@
  */
 package mygame;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.bullet.BulletAppState;
+
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Sphere;
-
 /**
  *
  * @author STAS
@@ -27,9 +20,10 @@ public final class Voyager{
     private Spatial voyager;
     private float speed;
     private static final int size;
+    private String name;
     
-    public Voyager(){
-
+    public Voyager(String name){
+        this.name = name;
         speed = 90f;
     }
     
@@ -75,6 +69,10 @@ public final class Voyager{
        
     public void setPosition(Vector3f pos){
         voyager.setLocalTranslation(pos);
+    }
+    
+    public String getName(){
+        return name;
     }
     
 }
