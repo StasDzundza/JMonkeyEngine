@@ -24,6 +24,7 @@ public class GameController extends SimpleApplication {
     private static final int G;
     private static final int camSpeed;
     private Physics p;
+    private static final String crossHair;
     
     public GameController(){
         p = new Physics();
@@ -31,7 +32,8 @@ public class GameController extends SimpleApplication {
     
     static{
         G = 3;
-        camSpeed = 400;
+        camSpeed = 400; 
+        crossHair = "Interface/Fonts/Default.fnt";
     }
     
     @Override
@@ -44,12 +46,12 @@ public class GameController extends SimpleApplication {
         
         jupiter = new Jupiter("Jupiter");
         p.setMaterial(jupiter, assetManager,new Vector3f(0,2,-15),false);
-        p.setPhysics(jupiter, bulletAppState);
+        p.setPhysics(jupiter, bulletAppState.getPhysicsSpace());
         rootNode.attachChild(jupiter.getGeometry());
 
         voyager = new Voyager("Voyager2");
         p.setMaterial(voyager, assetManager,new Vector3f(-500,0,1005),false);
-        p.setPhysics(voyager, bulletAppState);
+        p.setPhysics(voyager, bulletAppState.getPhysicsSpace());
         rootNode.attachChild(voyager.getGeometry());
 
         light = new Light(rootNode);
@@ -82,7 +84,7 @@ public class GameController extends SimpleApplication {
 
     private void initCrossHair() {
         guiNode.detachAllChildren();
-        guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+        guiFont = assetManager.loadFont(crossHair);
         BitmapText ch = new BitmapText(guiFont, false);
         ch.setSize(guiFont.getCharSet().getRenderedSize() * 2);
         ch.setText("+");        // fake crosshairs :)
